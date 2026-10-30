@@ -25,7 +25,7 @@
 - Linux 체제 터미널 사용 이유 : chmod 및 권한 정수표기등 과제에서 Linux 체제를 전제로 한 기능 사용 요구
 - 쉘: Bash
 
-## 작업 내용
+## 작업 내용(터미널, 권한)
 
 ### 1-1. 현재 위치 및 목록 확인
 
@@ -112,4 +112,60 @@ ls -ld permission_dir           //목록 확인
 ```
 (이미지 첨부)
 
+## 작업 내용(Docker)
 
+### 1.설치 확인
+
+- Docker Desktop 설치 후 Ubuntu 터미널에서 명령어 확인
+
+```bash
+docker --version                //Docker CLI의 버전 확인
+docker --info                   //Docker 정보 확인
+```
+(이미지 첨부)
+
+- Docker Desktop 실행 중 명령어 사용 불가 오류 발생, 해당 트러블슈팅 문서 참조.
+
+### 2. Docker 이미지 다운로드 및 확인
+
+```bash
+docker pull ubuntu:24.04          //
+```
+
+  - doker  : Docker CLI
+  - pull   : 레지스트리에서 이미지 다운로드
+  - ubuntu : 이미지명
+  - 24.04  : 이미지 태크(버전 식별자) > 기본값은 latest로 유동적이기 때문에 재실행시 동일한 결과 출력을 위해 특정값 지정
+
+(이미지 첨부)
+
+### 3. 이미지 및 컨테이너 목록 확인
+
+```bash
+docker images          //리포지토리 내 이미지 목록 확인
+```
+(이미지 첨부)
+
+- 2에서 다운로드한 이미지가 정상적으로 추가되었는지 확인.
+
+```bash
+docker ps -a            //컨테이너 목록 확인
+```
+(이미지 첨부)
+
+- 컨테이너 없음 : 정상, 이미지의 다운로드와 컨테이너의 생성 및 실행은 별개
+
+### 4. 운영용 컨테이너 생성
+
+```bash
+docker run -d --name docker-monitor ubuntu:24.04 sleep infinity    //컨테이너 생성 및 설정
+docker ps                                                          //컨테이너 목록 확인
+docker ps -a                                                       //컨테이너 목록 확인(숨김포함)
+```
+
+- 명령어 내용
+  - run                   : 새 컨테이너 생성 및 실행
+  - -d                    : 백그라운드 실행
+  - --name docker-monitor : 이름 지정
+  - ubuntu:24.04          : 사용할 이미지
+  - sleep infinity        : 종료되지 않고 대기하는 프로세스 실행
