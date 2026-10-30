@@ -155,7 +155,7 @@ docker ps -a            //컨테이너 목록 확인
 
 - 컨테이너 없음 : 정상, 이미지의 다운로드와 컨테이너의 생성 및 실행은 별개
 
-### 4. 운영용 컨테이너 생성
+### 4. 운영용 컨테이너 생성 및 확인
 
 ```bash
 docker run -d --name docker-monitor ubuntu:24.04 sleep infinity    //컨테이너 생성 및 설정
@@ -169,3 +169,48 @@ docker ps -a                                                       //컨테이�
   - --name docker-monitor : 이름 지정
   - ubuntu:24.04          : 사용할 이미지
   - sleep infinity        : 종료되지 않고 대기하는 프로세스 실행
+
+### 5. 컨테이너 로그 확인
+
+```bash
+docker exec docker-monitor echo "Docker monitoring test"    // 실행중인(exec) 컨테이너에서 출력(echo) 실행
+docker logs docker-monitor                                  // 컨테이너 작업 로그 확인
+```
+
+(이미지 첨부)
+
+- 로그 내역이 조회되지 않음
+  - logs 명령어는 주프로세스(위 내용에선 docker)의 출력/오류를 수집, exec는 명시하지 않는 한 터미널(현 환경에선 Ubuntu)에서 출력 되기 때문에 로그상에 기록이 남지 않음.
+
+```bash
+docker run -d --name docker-log-test ubuntu:24.04\
+ sh -c 'echo "Container started"; sleep 10; echo "Container finished"'   // 컨테이너 생성 및 명령실행
+docker logs docker-log-test                                              // 로그 확인
+docker logs docker-log-test                                              // 로그 확인(10초 후)
+```
+
+- 명령 내용
+    - sh : 셸 프로그램 실행
+    - -c : 문자열을 명령어로 해석
+    - ;  : 명령어 구분자
+- -d 명령어로 인해 백그라운드 실행되어 echo 결과가 화면에 출력되지 않음, log로 확인가능
+
+### 6. 리소스 확인
+
+```bash
+docker stats --no-stream docker-monitor
+```
+
+- --no-stream : 사용량을 입력 시기의 한 번에 한해 출력
+  - 미입력시 지속적으로 갱신, ctrl+c로 중지 가능.
+ 
+### 7. 컨테이너 중지 및 제거
+
+```bash
+docker stop docker-monitor                // docker-monitor 컨테이너 중지
+docker ps
+docker ps -a                              // 목록 확인
+docker rm docker-monitor docker-log-test  // docker-monitor, docker-log-test 컨테이너 제거
+```
+
+(이미지 첨)
