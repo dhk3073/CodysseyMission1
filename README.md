@@ -22,7 +22,6 @@
 - 호스트 OS: Windows 11
 - Linux 환경: WSL2
 - 터미널: Ubuntu 콘솔(WSL)
-- Linux 체제 터미널 사용 이유 : chmod 및 권한 정수표기등 과제에서 Linux 체제를 전제로 한 기능 사용 요구
 - 쉘: Bash
 
 ## 작업 내용
@@ -222,3 +221,38 @@ curl http://localhost:8080                                   // 웹페이지 HTM
 - 체크리스트
   - 브라우저 접속 화면 / curl 응답 [o]
  
+### 8. 도커 볼륨 영속성 검증
+
+```bash
+docker volume create practice-volume                                                          //도커 볼륨 생성
+docker volume ls                                                                              //볼륨 리스트 확인
+docker volume inspect practice-volume                                                         //볼륨 세부정보 확인
+docker run -it --name volume-test-a --mount source=practice-volume,target=/data my-ubuntu:v1  //컨테이너 생성
+```
+(이미지 첨부)
+
+- 명령어 해석
+  - --mount : 저장 공간 연결 설정
+  - source= : 연결할 볼륨
+  - target= : 연결 위치, 해당 디렉토리 및 하위에 작업된 결과가 볼륨에 저장됨.
+
+```bash
+docker exec -u root volume-test-a sh -c 'echo "Docker volume persistence test" > /data/test.txt'  //루트 권한으로 출력 데이터를 test.txt에 저장
+docker exec volume-test-a cat /data/test.txt                                                      //저장된 텍스트파일 확인
+docker stop volume-test-a
+docekr rm volume-test-a
+docker ps -a                                                                                      //컨테이너 삭제 및 확인
+docker volume ls                                                                                  //볼륨 리스트 확인(삭제 안됨)
+docker run -it --name volume-test-b --mount source=practice-volume,target=/data my-ubuntu:v1      //같은 볼륨에 연결된 새로운 컨테이너 생성
+cat /data/test.txt                                                                                //볼륨에 저장된 텍스트파일 확인
+```
+
+(이미지 첨부)
+
+- 결과
+  - 같은 볼륨에 연결한 새로운 컨테이너가 삭제된 컨테이너에서 작업한 결과물을 확인 할 수 있음. (=데이터의 영속성)
+ 
+- 체크리스트
+  - 도커 볼륨 생성 후 연결 [o]
+  - 컨테이너 삭제 전/후 데이터 확인 [o]
+  - 기술 문서에 절차 포함 [o]
