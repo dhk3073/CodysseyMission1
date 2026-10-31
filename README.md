@@ -260,3 +260,38 @@ cat /data/test.txt                                                              
 ### 9. Git 설정 및 GitHub 연동
 
 ```bash
+git --version
+git config --global user.name "(사용자 명)"
+git config --global user.email "(사용자 이메일)"
+git config --global init.defaultBranch main
+git config --list
+```
+
+- 진행 내용
+- git 사용자 정보 설정 및 기본 브랜치 설정
+- 설정 결과 확인
+
+```bash
+sudo apt update                              // 관리자 권한으로 Ubuntu 관리도구로 패키지 목록 및 정보 갱신
+(터미널 실행 시 입력한 비밀번호 입력)
+sudo apt install -y gh                       // 깃헙 CLI 패키지 설치
+gh --version                                 // 설치 확인
+gh auth login                                // 계정 인증절차 시작
+//선택지 GitHub.com > HTTPS > Y > Login with a webbrowser
+//웹브라우저 오픈 실패 시, 브라우저로 기기 인증 페이지(https://github.com/login/device/select_account) 접속 후 터미널에 출력된 one-time code 입력 > 이후 연동과정 진행
+gh auth status                               // 인증정보 확인
+```
+
+```bash
+cd ~                                                                  // 초기 위치 이동
+pwd
+ls                                                                    // 목록 확인 (기존 작업 디렉터리 확인)
+git clone https://github/(사용자명)/(저장소명).git assignment1-git    // 저장소 복제
+cd ~/assignment1-git
+ls -la
+git status
+git remote -v                                                        // 저장소 연결 확인
+```
+
+```bash
+git branch --show-current                                            // 브랜치 명
