@@ -25,192 +25,200 @@
 - Linux 체제 터미널 사용 이유 : chmod 및 권한 정수표기등 과제에서 Linux 체제를 전제로 한 기능 사용 요구
 - 쉘: Bash
 
-## 작업 내용(터미널, 권한)
+## 작업 내용
 
-### 1-1. 현재 위치 및 목록 확인
-
-```bash
-pwd        //현재 위치 확인
-ls -la     //목록 확인(숨김 파일 포함)
-```
-(이미지 첨부)
-- . : 현재 디렉토리
-- .. : 부모 디렉토리
-
-### 1-2. 디렉토리 생성 및 이동, 이동 결과 확인
+### 1. 터미널 로그 조작 기록
 
 ```bash
-mkdir asignment1    //디렉토리 생성
-ls -la              //목록 확인(디렉토리 생성여부 확인)
-cd asignment1       //디렉토리 이동(생성한 디렉토리로 이동)
-pwd                 //현재 위치 확인
-```
-(이미지 첨부)
-
-### 2-1. 파일 생성 및 내용 입력, 확인
-
-```bash
-touch original.txt  //파일 생성
-ls -l original.txt  //목록 확인(뒤에 추가한 파일명으로 확인 범위를 제한), 파일명이 없어도 생성여부는 확인 가능하나, 생성 실패시 오류 메시지 확인을 위해 범위 지정, 혹은 대량의 파일이 존재할 경우 특정 파일의 확인을 용이하게 하기 위함.
-echo "Hello Linux" > original.txt  //문자열 입력 및 입력 위치 지정
-echo "CLI" >> original.txt         //'>' : 내용 덮어쓰기 '>>' : 내용 추가하기
-cat original.txt                   //파일 내용 확인
-```
-(이미지 첨부)
-
-### 2-2 파일 복사
-
-```bash
-cp original.txt copied.txt        //파일 복사 (원본 유지)
-ls -l                             //목록 확인
-cat copied.txt                    //복사한 파일 확인
-```
-(이미지 첨부)
-
-### 2-3 파일 이름 변경 및 이동
-
-```bash
-mv copied.txt renamed.txt        //파일 이름 변경
-ls -l                            //목록 확인
-mkdir backup                     //새 디렉토리 생성
-mv renamed.txt backup/           //파일을 지정한 디렉토리로 이동
-ls -l backup/                    //지정한 디렉토리의 목록 확인
-```
-(이미지 첨부)
-
-### 2-4. 파일 및 디렉토리 삭제
-
-```bash
-rm original.txt                  //파일 삭제
-rm backup/renamed.txt            //파일 삭제(상대 경로 지정)
-rmdir backup                     //디렉토리 삭제
-ls -la                           //목록 확인
+pwd                       //현재 위치 확인
+ls -la                    //목록 확인(숨김 파일 포함)
+mkdir work1               //경로 생성
+cd work1                  //경로 이동
+touch test1.txt           //빈 파일 생성
+cat test1.txt             //파일 내용 확인
+cp test1.txt mvtest1.txt  //파일 복사
+ls -a                     //복사 여부 확인
+mv mvtest1.txt ..         //파일 이동
+cd ..
+ls -a                     //경로 이동 및 파일 이동확인
+rm mvtest1.txt
+ls -a                     //파일 삭제 및 삭제여부 확인
 ```
 
-### 3-1. 파일 권한 변경
+(로그 이미지)
 
-```bash
-touch permission.txt            //파일 생성
-ls -l                           //목록 확인
-chmod 600 permision.txt         //권한 부여
-ls -l                           //목록 확인
-chmod 644 permission.txt        //권한 부여(수정)
-ls -l                           //목록 확인
-```
-(이미지 첨부)
-* 이미지상의 일부 명령어 및 파일등에 오타가 있어 해당 명령문을 재실행함.
-
-### 3-2. 디렉토리 권한 변경
-
-```bash
-mkdir permission_dir            //디렉토리 생성
-ls -ld permission_dir           //목록 확인 : -d 를 사용해 디렉토리의 권한 확인
-chmod 700 permission_dir        //권한 설정
-ls -ld permission_dir           //목록 확인
-chmod 755 permission_dir        //권한 설정(수정)
-ls -ld permission_dir           //목록 확인
-```
-(이미지 첨부)
-
-## 작업 내용(Docker)
-
-### 1.설치 확인
-
-- Docker Desktop 설치 후 Ubuntu 터미널에서 명령어 확인
-
-```bash
-docker --version                //Docker CLI의 버전 확인
-docker --info                   //Docker 정보 확인
-```
-(이미지 첨부)
-
-- Docker Desktop 실행 중 명령어 사용 불가 오류 발생, 해당 트러블슈팅 문서 참조.
-
-### 2. Docker 이미지 다운로드 및 확인
-
-```bash
-docker pull ubuntu:24.04          //
-```
-
-  - doker  : Docker CLI
-  - pull   : 레지스트리에서 이미지 다운로드
-  - ubuntu : 이미지명
-  - 24.04  : 이미지 태크(버전 식별자) > 기본값은 latest로 유동적이기 때문에 재실행시 동일한 결과 출력을 위해 특정값 지정
-
-(이미지 첨부)
-
-### 3. 이미지 및 컨테이너 목록 확인
-
-```bash
-docker images          //리포지토리 내 이미지 목록 확인
-```
-(이미지 첨부)
-
-- 2에서 다운로드한 이미지가 정상적으로 추가되었는지 확인.
-
-```bash
-docker ps -a            //컨테이너 목록 확인
-```
-(이미지 첨부)
-
-- 컨테이너 없음 : 정상, 이미지의 다운로드와 컨테이너의 생성 및 실행은 별개
-
-### 4. 운영용 컨테이너 생성 및 확인
-
-```bash
-docker run -d --name docker-monitor ubuntu:24.04 sleep infinity    //컨테이너 생성 및 설정
-docker ps                                                          //컨테이너 목록 확인
-docker ps -a                                                       //컨테이너 목록 확인(숨김포함)
-```
-
-- 명령어 내용
-  - run                   : 새 컨테이너 생성 및 실행
-  - -d                    : 백그라운드 실행
-  - --name docker-monitor : 이름 지정
-  - ubuntu:24.04          : 사용할 이미지
-  - sleep infinity        : 종료되지 않고 대기하는 프로세스 실행
-
-### 5. 컨테이너 로그 확인
-
-```bash
-docker exec docker-monitor echo "Docker monitoring test"    // 실행중인(exec) 컨테이너에서 출력(echo) 실행
-docker logs docker-monitor                                  // 컨테이너 작업 로그 확인
-```
-
-(이미지 첨부)
-
-- 로그 내역이 조회되지 않음
-  - logs 명령어는 주프로세스(위 내용에선 docker)의 출력/오류를 수집, exec는 명시하지 않는 한 터미널(현 환경에선 Ubuntu)에서 출력 되기 때문에 로그상에 기록이 남지 않음.
-
-```bash
-docker run -d --name docker-log-test ubuntu:24.04\
- sh -c 'echo "Container started"; sleep 10; echo "Container finished"'   // 컨테이너 생성 및 명령실행
-docker logs docker-log-test                                              // 로그 확인
-docker logs docker-log-test                                              // 로그 확인(10초 후)
-```
-
-- 명령 내용
-    - sh : 셸 프로그램 실행
-    - -c : 문자열을 명령어로 해석
-    - ;  : 명령어 구분자
-- -d 명령어로 인해 백그라운드 실행되어 echo 결과가 화면에 출력되지 않음, log로 확인가능
-
-### 6. 리소스 확인
-
-```bash
-docker stats --no-stream docker-monitor
-```
-
-- --no-stream : 사용량을 입력 시기의 한 번에 한해 출력
-  - 미입력시 지속적으로 갱신, ctrl+c로 중지 가능.
+- 체크리스트
+  - 현재 위치 확인  [o]
+  - 목록 확인(숨김파일 포함)  [o]
+  - 경로 이동  [o]
+  - 경로 생성  [o]
+  - 파일 복사  [o]
+  - 파일 이동/이름 변경  [o]
+  - 파일 삭제  [o]
+  - 빈 파일 생성 [o]
  
-### 7. 컨테이너 중지 및 제거
+### 2.권한 실습 및 증거 기록
 
 ```bash
-docker stop docker-monitor                // docker-monitor 컨테이너 중지
-docker ps
-docker ps -a                              // 목록 확인
-docker rm docker-monitor docker-log-test  // docker-monitor, docker-log-test 컨테이너 제거
+ls -la              //권한 확인
+chmod 711 work1     //디렉토리 권한 변경
+ls -la              //변경된 권한 확인
+chmod 755 work1     //기존 권한상태로 복구
+ls -la              //내부 파일 권한 확인
+chmod 755 test1.txt //파일 권한 변경
+ls -la              //변경된 권한 확인
 ```
 
-(이미지 첨)
+- 체크리스트
+  - 권한 확인/변경 명령 수행 [o]
+  - 변경 전/후 비교 [o]
+  - 변경 수량 : 디렉토리 1개, 파일 1개
+ 
+### 3. Docker 설치 및 기본 점검
+
+```bash
+docker --version
+docker info
+```
+
+(이미지 첨부)
+
+- 체크리스트
+  - 도커 버전 확인 결과 기록 [o]
+  - 도커 데몬 동작 여부 확인 결과 기록 [o]
+
+### 4. Docker 기본 운영 명령 수행
+
+```bash
+docker images                                //저장된 이미지 확인, 없을 경우 docker pull로 이미지 다운로드
+docker ps
+docker ps -a
+docker logs practice-container               //로그 확인, 옵션 미선택시 전체 로그 출력
+docker stats -no--stream practice-container  //리소스 확인, -no--stream 옵션 미선택시 실시간 측정, ctrl+c로 종료가능
+```
+
+(이미지 첨부)
+
+- 체크리스트
+  - 이미지 명령 [o]
+  - 컨테이너 명령 [o]
+  - 운영 명령 [o]
+
+### 5. 컨테이너 실행 실습
+
+```bash
+docker run hello-world    //hello world 명령어
+docker ps -a              //정상실행 확인
+```
+
+(이미지 첨부)
+
+```bash
+docker ps -a
+docker run -it --name ubuntu ubuntu:24.04 bash      //컨테이너 실행
+pwd                                                 //현재 위치 확인(컨테이너 내부)
+ls
+echo "Hello World!"                                 //간단한 명령어 실행
+```
+
+(이미지 첨부)
+
+```bash
+exit                                                //컨테이너 탈출
+docker ps -a                                        //컨테이너 상태 확인
+docker start ubuntu                                 //컨테이너 재실행
+docker ps                                           //실행 여부 확인
+docker attach ubuntu                                //컨테이너 접속(attach)
+echo "Attached to container"
+exit                                                //컨테이너 탈출
+docker ps -a                                        //컨테이너 상태 확인
+```
+
+(이미지 첨부)
+- attach로 접속된 컨테이너는 exit시 종료됨
+
+```bash
+docker start ubuntu                                 //컨테이너 재실행
+docekr exec -it ubuntu bash                         //컨테이너 접속(exec)
+echo "Executed new Bash"
+exit                                                //컨테이너 탈출
+docker ps                                           //컨테이너 상태 확인
+```
+
+(이미지 첨부)
+
+- exec로 접속한 컨테이너는 exit 후에도 실행된 상태
+
+- 원인
+  - 컨테이너의 생명주기는 주프로세스를 따라감.
+  - attach의 경우 컨테이너의 기존 프로세스에 연결해, 해당 프로세스를 exit할 시 주프로세스가 종료되어 컨테이너 또한 종료됨
+  - exec의 경우 새로운 프로세스를 생성하기 때문에 exit하더라도 주프로세스가 유지되어있으므로 컨테이너가 종료되지 않음.
+
+- 체크리스트
+  - hello-world 실행 성공 [o]
+  - ubuntu 컨테이너 실행 후 간단한 명령 수행 [o]
+  - 컨테이너 종료/유지 의 차이 관찰 후 정리 [o]
+ 
+### 6. 기존 Dockerfile 기반 커스텀 이미지 제작
+
+```bash
+cd work1
+mkdir docker-custom
+cd docker-custom
+pwd                              //커스텀 이미지 제작용 디렉토리 생성 및 확인
+nano Dockerfile                  //Dockerfile 작성
+
+// 도커파일 내부
+
+FROM ubuntu:24.04
+// Ubuntu 패키지 목록 및 관련 정보 갱신, curl 프로그램 설치, 불필요한 패키지 제거
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
+// 사용자 생성 (제3자 권한 제한용)
+RUN useradd -m -s /bin/bash student
+// 환경변수 생성 (기능 확인용)
+ENV APP_ENV=practice
+// 이후 명령어의 기본 작업 디렉토리 설정
+WORKDIR /home/student
+// 생성한 사용자를 실행 주체로 지정
+USER student
+// 컨테이너 실행 시 기본값 지정
+CMD ["bash"]
+
+// 도커파일 탈출 (ctrl O > enter > ctrl X)
+
+docker build -t my-ubuntu:v1 .                         // 커스텀 이미지 빌드
+docker image                                           // 빌드된 이미지 확인
+docker run -it --name custom-ubuntu-test my-ubuntu:v1  // 커스텀 이미지로 컨테이너 생성
+
+//컨테이너 내부
+whoami
+pwd
+echo $APP_ENV
+curl --version                                         // 커스텀 요소 정상작동 확인
+```
+
+(이미지 첨부)
+
+- 커스텀 목록 및 사유
+  - RUN apt ~ : curl 기능 추가 및 불필요한 패키지 삭제 (과제 요구사항 + 저장공간 관리)
+  - RUN useradd ~ : 커스텀 이미지용 기본 사용자를 생성해 일반적인 상황에서 권한 제한 (과제 요구사항)
+  - ENV ~ : 환경변수 생성 (과제 요구사항)
+  - WORKDIR ~ : 작업용 전용 디렉토리 생성 (혼선 방지 및 탐색 용이)
+  - USER ~ : useradd로 추가한 사용자를 주체로 설정
+  - CMD : 도커 컨테이너 실행 시 기본값으로 터미널 진입 지정 (편의성)
+
+### 7. 포트 매핑 및 접속증거
+
+```bash
+docker run -d --name nginx-test -p 8080:80 nginx:stable      // 컨테이너 실행(백그라운드 실행)
+docker ps                                                    // 실행 여부 확인
+curl -I http://localhost:8080                                // 네트워크 응답확인
+curl http://localhost:8080                                   // 웹페이지 HTML 내용 확인
+```
+(이미지 첨부)
+
+- 체크리스트
+  - 브라우저 접속 화면 / curl 응답 [o]
+ 
