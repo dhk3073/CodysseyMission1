@@ -295,3 +295,13 @@ git remote -v                                                        // 저장�
 
 ```bash
 git branch --show-current                                            // 브랜치 명
+git pul --ff-only                                                    // 변경사항 가져오기
+echo "GitHub connection test" > git-test.txt
+cat git-test.txt
+git status                                                           // 상태 확인
+git add git-test.txt                                                 // 작성한 파일 스테이징 영역에 추가
+git status
+git commit -m "test: verify GitHub connection"                       // 커밋 설정
+git log -1 --oneline                                                 // 로그 확인
+git push -u origin HEAD                                              // 깃헙에 업로드
+```
