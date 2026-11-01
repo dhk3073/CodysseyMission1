@@ -44,7 +44,7 @@ rm mvtest1.txt
 ls -a                     //파일 삭제 및 삭제여부 확인
 ```
 
-
+![실습 내용](<작업내용(new)/2. 터미널 조작 로그 기록.png>)
 
 - 체크리스트
   - 현재 위치 확인  [o]
@@ -68,7 +68,8 @@ chmod 755 test1.txt //파일 권한 변경
 ls -la              //변경된 권한 확인
 ```
 
-![실습 내용](<작업내용(new)/2. 터미널 조작 로그 기록.png>)
+![실습 내용](<작업내용(new)/3. 권한 실습 및 증거기록1.png>)
+![실습 내용](<작업내용(new)/3. 권한 실습 및 증거기록2.png>)
 
 - 체크리스트
   - 권한 확인/변경 명령 수행 [o]
@@ -82,7 +83,8 @@ docker --version
 docker info
 ```
 
-(이미지 첨부)
+![실습 내용](<작업내용(new)/4. 도커 설치 및 기본 점검.png>)
+![실습 내용](<작업내용(new)/4. 도커 설치 및 기본 점검2.png>)
 
 - 체크리스트
   - 도커 버전 확인 결과 기록 [o]
@@ -98,7 +100,7 @@ docker logs practice-container               //로그 확인, 옵션 미선택�
 docker stats -no--stream practice-container  //리소스 확인, -no--stream 옵션 미선택시 실시간 측정, ctrl+c로 종료가능
 ```
 
-(이미지 첨부)
+![실습 내용](<작업내용(new)/5. 도커 기본 운영 명령 수행.png>)
 
 - 체크리스트
   - 이미지 명령 [o]
@@ -112,7 +114,7 @@ docker run hello-world    //hello world 명령어
 docker ps -a              //정상실행 확인
 ```
 
-(이미지 첨부)
+![실습 내용](<작업내용(new)/6. 컨테이너 실행 실습 1.png>)
 
 ```bash
 docker ps -a
@@ -122,7 +124,7 @@ ls
 echo "Hello World!"                                 //간단한 명령어 실행
 ```
 
-(이미지 첨부)
+![실습 내용](<작업내용(new)/6. 컨테이너 실행 실습 2.png>)
 
 ```bash
 exit                                                //컨테이너 탈출
@@ -135,7 +137,7 @@ exit                                                //컨테이너 탈출
 docker ps -a                                        //컨테이너 상태 확인
 ```
 
-(이미지 첨부)
+![실습 내용](<작업내용(new)/6. 컨테이너 실행 실습 3.png>)
 - attach로 접속된 컨테이너는 exit시 종료됨
 
 ```bash
@@ -146,7 +148,7 @@ exit                                                //컨테이너 탈출
 docker ps                                           //컨테이너 상태 확인
 ```
 
-(이미지 첨부)
+![실습 내용](<작업내용(new)/6. 컨테이너 실행 실습 4.png>)
 
 - exec로 접속한 컨테이너는 exit 후에도 실행된 상태
 
@@ -200,7 +202,8 @@ echo $APP_ENV
 curl --version                                         // 커스텀 요소 정상작동 확인
 ```
 
-(이미지 첨부)
+![실습 내용](<작업내용(new)/7. 커스텀 이미지 1.png>)
+![실습 내용](<작업내용(new)/7. 커스텀 이미지 2.png>)
 
 - 커스텀 목록 및 사유
   - RUN apt ~ : curl 기능 추가 및 불필요한 패키지 삭제 (과제 요구사항 + 저장공간 관리)
@@ -218,7 +221,10 @@ docker ps                                                    // 실행 여부 �
 curl -I http://localhost:8080                                // 네트워크 응답확인
 curl http://localhost:8080                                   // 웹페이지 HTML 내용 확인
 ```
-(이미지 첨부)
+
+![실습 내용](<작업내용(new)/8. 포트 접속 증거(curl1).png>)
+![실습 내용](<작업내용(new)/8. 포트 접속 증거(curl2).png>)
+![실습 내용](<작업내용(new)/8. 포트 접속 증거.png>)
 
 - 체크리스트
   - 브라우저 접속 화면 / curl 응답 [o]
@@ -231,7 +237,7 @@ docker volume ls                                                                
 docker volume inspect practice-volume                                                         //볼륨 세부정보 확인
 docker run -it --name volume-test-a --mount source=practice-volume,target=/data my-ubuntu:v1  //컨테이너 생성
 ```
-(이미지 첨부)
+![실습 내용](<작업내용(new)/9. 볼륨 영속성 증명.png>)
 
 - 명령어 해석
   - --mount : 저장 공간 연결 설정
@@ -249,7 +255,8 @@ docker run -it --name volume-test-b --mount source=practice-volume,target=/data 
 cat /data/test.txt                                                                                //볼륨에 저장된 텍스트파일 확인
 ```
 
-(이미지 첨부)
+![실습 내용](<작업내용(new)/9. 볼륨 영속성 증명2.png>)
+![실습 내용](<작업내용(new)/9. 볼륨 영속성 증명3.png>)
 
 - 결과
   - 같은 볼륨에 연결한 새로운 컨테이너가 삭제된 컨테이너에서 작업한 결과물을 확인 할 수 있음. (=데이터의 영속성)
@@ -284,6 +291,9 @@ gh auth login                                // 계정 인증절차 시작
 gh auth status                               // 인증정보 확인
 ```
 
+![실습 내용](<작업내용(new)/10. git 연동1.png>)
+![실습 내용](<작업내용(new)/10. git 연동2.png>)
+
 ```bash
 cd ~                                                                  // 초기 위치 이동
 pwd
@@ -294,6 +304,8 @@ ls -la
 git status
 git remote -v                                                        // 저장소 연결 확인
 ```
+
+![실습 내용](<작업내용(new)/10. git 연동3.png>)
 
 ```bash
 git branch --show-current                                            // 브랜치 명
@@ -307,3 +319,7 @@ git commit -m "test: verify GitHub connection"                       // 커밋 �
 git log -1 --oneline                                                 // 로그 확인
 git push -u origin HEAD                                              // 깃헙에 업로드
 ```
+
+![실습 내용](<작업내용(new)/10. git 연동4-1.png>)
+![실습 내용](<작업내용(new)/10. git 연동4-2.png>)
+![실습 내용](<작업내용(new)/10. git 연동5.png>)
