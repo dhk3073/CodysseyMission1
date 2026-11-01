@@ -174,20 +174,20 @@ nano Dockerfile                  //Dockerfile 작성
 // 도커파일 내부
 
 FROM ubuntu:24.04
-// Ubuntu 패키지 목록 및 관련 정보 갱신, curl 프로그램 설치, 불필요한 패키지 제거
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl && \
-    rm -rf /var/lib/apt/lists/*
-// 사용자 생성 (제3자 권한 제한용)
-RUN useradd -m -s /bin/bash student
-// 환경변수 생성 (기능 확인용)
-ENV APP_ENV=practice
-// 이후 명령어의 기본 작업 디렉토리 설정
-WORKDIR /home/student
-// 생성한 사용자를 실행 주체로 지정
-USER student
-// 컨테이너 실행 시 기본값 지정
-CMD ["bash"]
+    rm -rf /var/lib/apt/lists/*                              // Ubuntu 패키지 목록 및 관련 정보 갱신, curl 프로그램 설치, 불필요한 패키지 제거
+
+RUN useradd -m -s /bin/bash student                          // 사용자 생성 (제3자 권한 제한용)
+
+ENV APP_ENV=practice                                         // 환경변수 생성 (기능 확인용)
+
+WORKDIR /home/student                                        // 이후 명령어의 기본 작업 디렉토리 설정
+
+USER student                                                 // 생성한 사용자를 실행 주체로 지정
+
+CMD ["bash"]                                                 // 컨테이너 실행 시 기본값 지정
 
 // 도커파일 탈출 (ctrl O > enter > ctrl X)
 
