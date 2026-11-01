@@ -29,7 +29,7 @@
 ### 1. 터미널 로그 조작 기록
 
 - 우분투 설치 중 오류 발생
-  - 트러블슈팅 내역 : https://github.com/dhk3073/CodysseyMission1/blob/4a476f896e1ddb9a3cc5bb09b16f7e4b2a2e06d9/%ED%8A%B8%EB%9F%AC%EB%B8%94%20%EC%8A%88%ED%8C%85/%ED%8A%B8%EB%9F%AC%EB%B8%94%20%EC%8A%88%ED%8C%85%20%EB%82%B4%EC%97%AD.txt#L3
+  - 트러블슈팅 내역 : https://github.com/dhk3073/CodysseyMission1/blob/db612c0f5977c8ffec593c38a86c855e01b038d9/%ED%8A%B8%EB%9F%AC%EB%B8%94%20%EC%8A%88%ED%8C%85/%ED%8A%B8%EB%9F%AC%EB%B8%94%20%EC%8A%88%ED%8C%85%20%EB%82%B4%EC%97%AD.txt#L3-L47
 
 ```bash
 pwd                       //현재 위치 확인
