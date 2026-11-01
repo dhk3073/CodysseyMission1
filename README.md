@@ -242,6 +242,35 @@ curl http://localhost:8080                                   // 웹페이지 HTM
 ![실습 내용](<작업내용(new)/8. 포트 접속 증거(curl2).png>)
 ![실습 내용](<작업내용(new)/8. 포트 접속 증거.png>)
 
+```bash
+docker rm -f nginx-test                                      // 기존 컨테이너 삭제
+docekr run -d --name nginx-newtest -p 8080:80 nginx:stable   // 동일한 설정의 컨테이너 생성
+docker port nginx-test                                       // 포트 매핑 확인
+curl -I http://localhost:8080                                // 응답 재검증
+```
+
+![실습 내용](<작업내용(new)/8. 포트 재구현 증거.png>)
+
+- 작동 원리
+  - 컨테이너는 일반적인 Docker 브리지 네트워크에서 별도의 네임 스페이스를 사용
+    - 즉, 네임 스페이스로 인해 호스트와 컨테이너의 네트워크 환경이 분리됨.
+  - 사용한 명령어 중 -p는 호스트의 포트로 들어온 요청을 컨테이너의 지정 포트로 전달하도록 설정함.(포트 포워딩)
+  - 따라서, 네임스페이스는 네트워크의 분리 / 포트 포워딩은 접근 경로를 제공한다는 목적을 가진다.
+ 
+```bash
+docker run -d --name nginx-conflict -p 8080:80 nginx:stable                  // 동일한 호스트 포트를 사용하는 컨테이너 생성
+docker ps
+docker port nginx-newtest                                                    // 기존 컨테이너의 포트 매핑정보 확인
+sudo ss -ltnp '( sport = :8080 )'                                            // 호스트 포트 점유 확인
+docker rm -f nginx-conflict                                                  // 충돌한 컨테이너 제거
+docker run -d --name nginx-conflict -p 8081:80 nginx:stable                  // 다른 호스트 포트를 사용하는 컨테이너 생성
+docker ps -a
+curl -I http://localhost:8081                                                // 컨테이너 확인 및 응답 확인
+```
+
+![실습 내용](<작업내용(new)/8. 포트 충돌.png>)
+![실습 내용](<작업내용(new)/8. 포트 충돌2.png>)
+
 - 체크리스트
   - 브라우저 접속 화면 / curl 응답 [o]
  
@@ -264,7 +293,7 @@ docker run -it --name volume-test-a --mount source=practice-volume,target=/data 
 docker exec -u root volume-test-a sh -c 'echo "Docker volume persistence test" > /data/test.txt'  //루트 권한으로 출력 데이터를 test.txt에 저장
 docker exec volume-test-a cat /data/test.txt                                                      //저장된 텍스트파일 확인
 docker stop volume-test-a
-docekr rm volume-test-a
+docker rm volume-test-a
 docker ps -a                                                                                      //컨테이너 삭제 및 확인
 docker volume ls                                                                                  //볼륨 리스트 확인(삭제 안됨)
 docker run -it --name volume-test-b --mount source=practice-volume,target=/data my-ubuntu:v1      //같은 볼륨에 연결된 새로운 컨테이너 생성
@@ -276,6 +305,7 @@ cat /data/test.txt                                                              
 
 - 결과
   - 같은 볼륨에 연결한 새로운 컨테이너가 삭제된 컨테이너에서 작업한 결과물을 확인 할 수 있음. (=데이터의 영속성)
+  - 동일한 볼륨을 새 컨테이너에 연결해 기존 데이터에 재접속 가능. (접근 재현성)
  
 - 체크리스트
   - 도커 볼륨 생성 후 연결 [o]
