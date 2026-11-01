@@ -311,7 +311,38 @@ cat /data/test.txt                                                              
 - 결과
   - 같은 볼륨에 연결한 새로운 컨테이너가 삭제된 컨테이너에서 작업한 결과물을 확인 할 수 있음. (=데이터의 영속성)
   - 동일한 볼륨을 새 컨테이너에 연결해 기존 데이터에 재접속 가능. (접근 재현성)
- 
+
+```bash
+mkdir -p ~/docker-backups
+docker run --rm \
+  --mount source=practice-volume,target=/data,readonly \
+  --mount type=bind,source="$HOME/docker-backups",target=/backup \      //파일 백업(바인드 마운트)
+  ubuntu:24.04 \
+  tar -czf /backup/practice-volume.tar.gz -C /data .                    
+ls -lh ~/docker-backups/                                                //백업파일 확인
+tar -tzf ~/docker-backups/practice-volume.tar.gz                        //압축파일 내용 확인
+docker volume create practice-volume-restored                           //백업용 볼륨 생성
+docker run --rm \
+  --mount source=practice-volume-restored,target=/data \
+  --mount type=bind,source="$HOME/docker-backups",target=/backup,readonly \   //파일 복원(바인드)
+  ubuntu:24.04 \
+  tar -xzf /backup/practice-volume.tar.gz -C /data                      
+docker run --rm \
+  --mount source=practice-volume-restored,target=/data \
+  ubuntu:24.04 cat /data/test.txt                                       //백업파일 확인
+```
+
+![실습 내용](<작업내용(new)/9. 바인드 백업.png>)
+
+- --rm : 실행 후 자동 제거되는 옵션
+- tar -czf : gzip 압축 파일 생성
+- C /data . : /data 내부 전체 내용 압축
+
+- 바인드와 볼륨의 차이
+  - 바인드 : 호스트가 직접 경로를 지정해야하나, 호스트가 컨테이너를 거치지 않고 직접 수정 가능
+  - 볼륨 : Docker가 경로를 관리해 경로 지정이 간편하나, 접근성이 바인드에 비해 떨어짐.
+  - 따라서 해당 데이터의 관리 주체가 누가(호스트 or 컨테이너 프로그램) 되느냐에 따라 적절한 방식을 선택해야한다.
+
 - 체크리스트
   - 도커 볼륨 생성 후 연결 [o]
   - 컨테이너 삭제 전/후 데이터 확인 [o]
